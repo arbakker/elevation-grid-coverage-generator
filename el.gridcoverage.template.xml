@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gml:FeatureCollection xmlns:gss="http://www.isotc211.org/2005/gss"
+	xmlns:cvbase="http://inspire.ec.europa.eu/schemas/cvbase/1.0"
+	xmlns:el-cov="http://inspire.ec.europa.eu/schemas/el-cov/4.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0"
+	xmlns:swe="http://www.opengis.net/swe/2.0"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:base="http://inspire.ec.europa.eu/schemas/base/3.3"
+	xmlns:gts="http://www.isotc211.org/2005/gts"
+	xmlns:gmd="http://www.isotc211.org/2005/gmd"
+	xmlns:el-bas="http://inspire.ec.europa.eu/schemas/el-bas/4.0"
+	xmlns:gsr="http://www.isotc211.org/2005/gsr"
+	xmlns:gml="http://www.opengis.net/gml/3.2"
+	xmlns:gco="http://www.isotc211.org/2005/gco" gml:id="idc39dfe27-fc84-4668-a92f-6be677efd008" xsi:schemaLocation="http://inspire.ec.europa.eu/schemas/el-cov/4.0 http://inspire.ec.europa.eu/schemas/el-cov/4.0/ElevationGridCoverage.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://inspire.ec.europa.eu/schemas/base/3.3 http://inspire.ec.europa.eu/schemas/base/3.3/BaseTypes.xsd http://inspire.ec.europa.eu/schemas/gn/4.0 http://inspire.ec.europa.eu/schemas/gn/4.0/GeographicalNames.xsd http://www.isotc211.org/2005/gmd http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd">
+	{% for grid in grids %}
+	<gml:featureMember>
+		<el-cov:ElevationGridCoverage gml:id="nl-elevationgridcoverage.{{ grid.id }}">
+			<gml:identifier codeSpace="http://inspire.ec.europa.eu/ids">https://nationaalgeoregister.nl/id/nl.el/nl-elevationgridcoverage.{{ grid.id }}</gml:identifier>
+			<el-cov:inspireId>
+				<base:Identifier>
+					<base:localId>nl-elevationgridcoverage.{{ grid.id }}</base:localId>
+					<base:namespace>https://nationaalgeoregister.nl/id/nl.el
+					</base:namespace>
+					<base:versionId nilReason="other:unpopulated" xsi:nil="true">
+					</base:versionId>
+				</base:Identifier>
+			</el-cov:inspireId>
+			<gml:description>Landsdekkend digital terrain model (DTM) van Nederland met een resolutie van +-1m - kaartlad {{ grid.id }}</gml:description>
+			<gml:domainSet owns="false" xlink:type="simple">
+				<gml:RectifiedGrid gml:id="nl-elevationgridcoverage.{{ grid.id }}.rectified-grid" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode}}" dimension="2">
+					<gml:limits>
+						<gml:GridEnvelope>
+							<gml:low>0 0</gml:low>
+							<gml:high>{{ grid.sizeX }} {{ grid.sizeY}}</gml:high>
+						</gml:GridEnvelope>
+					</gml:limits>
+					<gml:axisLabels>x y</gml:axisLabels>
+					<gml:origin>
+						<gml:Point gml:id="origin_point" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode }}">
+							<gml:pos>{{ grid.originX }} {{ grid.originY }}</gml:pos>
+						</gml:Point>
+					</gml:origin>
+					<gml:offsetVector srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode }}">{{ grid.pixelsizeX }} 0</gml:offsetVector>
+					<gml:offsetVector srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode }}">0 {{ grid.pixelsizeY }}</gml:offsetVector>
+				</gml:RectifiedGrid>
+			</gml:domainSet>
+			<gml:rangeSet>
+				<gml:File>
+					<gml:rangeParameters xlink:href="{{ grid.filename }}" xlink:role="http://www.opengis.net/spec/WCS_coverageencoding_geotiff/1.0/" xlink:arcrole="fileReference"/>
+					<gml:fileReference>{{ grid.filename }}</gml:fileReference>
+					<gml:fileStructure>{{ grid.planarConfiguration }}</gml:fileStructure> <!-- Planar Configuration tag, check with exiftool-->
+					<gml:mimeType>image/tiff</gml:mimeType>
+				</gml:File>
+			</gml:rangeSet>
+			<gml:coverageFunction>
+				<gml:GridFunction>
+					<gml:sequenceRule axisOrder="+2 +1">Linear</gml:sequenceRule> <!-- harcoded -->
+					<gml:startPoint>0 0</gml:startPoint>
+				</gml:GridFunction>
+			</gml:coverageFunction>
+			<gmlcov:rangeType>
+				<swe:DataRecord>
+					<swe:field name="Height">
+						<swe:Quantity definition="http://inspire.ec.europa.eu/enumeration/ElevationPropertyTypeValue/height" referenceFrame="http://www.opengis.net/def/crs/EPSG/0/9423">
+							<swe:description>ETRS89 + EVRF2019 mean-tide height</swe:description>
+							<swe:nilValues>
+								<swe:NilValues>
+									<swe:nilValue reason="http://www.opengis.net/def/nil/OGC/0/missing">{{ grid.nodataVal }}</swe:nilValue>
+								</swe:NilValues>
+							</swe:nilValues>
+							<swe:uom code="m"/>
+							<swe:constraint>
+								<swe:AllowedValues>
+									<swe:interval>{{ grid.minVal }} {{ grid.maxVal }}</swe:interval>
+									<swe:significantFigures>5</swe:significantFigures>
+								</swe:AllowedValues>
+							</swe:constraint>
+						</swe:Quantity>
+					</swe:field>
+				</swe:DataRecord>
+			</gmlcov:rangeType>
+			<el-cov:beginLifespanVersion xsi:nil="true"/>
+			<el-cov:domainExtent>
+				<gmd:EX_Extent>
+					<gmd:geographicElement>
+						<gmd:EX_BoundingPolygon>
+							<gmd:polygon>
+								<gml:Polygon gml:id="Extent" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode }}" srsDimension="2">
+									<gml:exterior>
+										<gml:LinearRing>
+											<gml:posList>{{ grid.extentRing }}</gml:posList>
+										</gml:LinearRing>
+									</gml:exterior>
+								</gml:Polygon>
+							</gmd:polygon>
+						</gmd:EX_BoundingPolygon>
+					</gmd:geographicElement>
+				</gmd:EX_Extent>
+			</el-cov:domainExtent>
+			<el-cov:endLifespanVersion xsi:nil="true"/>
+			<el-cov:propertyType>height</el-cov:propertyType>
+			<el-cov:surfaceType>DTM</el-cov:surfaceType>
+		</el-cov:ElevationGridCoverage>
+	</gml:featureMember>
+	{% endfor %}
+</gml:FeatureCollection>
