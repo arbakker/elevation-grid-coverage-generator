@@ -7,6 +7,7 @@
 # - jq: https://stedolan.github.io/jq/manual/
 # - jinja-cli: https://pypi.org/project/jinja-cli/
 # - exiftool
+# - xmlstarlet
 #
 # author: https://github.com/arbakker/
 #
@@ -110,4 +111,9 @@ gml_bbox=$(jinja -d "$output_bbox_json" "bbox.template.xml")
 
 # insert gml_bbox in gml before first featureMember
 line_insert_before=$(grep -n "<gml:featureMember>" <<< "$gml" | head -n1 | cut -d: -f1)
-head -n $((line_insert_before-1))  <<< "$gml" && echo "$gml_bbox" && tail -n +$((line_insert_before-1)) <<< "$gml"
+
+gml_with_bbox=$(mktemp --suffix=".xml")
+(head -n $((line_insert_before-1))  <<< "$gml" && echo "$gml_bbox" && tail -n +$((line_insert_before-1)) <<< "$gml") > "$gml_with_bbox"
+
+xmlstarlet ed -L -O "$gml_with_bbox" # writing to tempfile since could not get xmlstarlet to accept input on stdin
+cat "$gml_with_bbox"
