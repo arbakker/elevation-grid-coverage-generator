@@ -45,7 +45,7 @@ for file in $tif_dir/*.tif;do
     ur_x=$(jq '.cornerCoordinates.upperRight[0]' <<< "$gdalinfo")
     ur_y=$(jq '.cornerCoordinates.upperRight[1]' <<< "$gdalinfo")
 
-    extent_ring="${ll_y} ${ll_x} ${ll_y} ${ur_x} ${ur_y} ${ur_x} ${ur_y} ${ll_x} ${ll_y} ${ll_x}"
+    extent_ring="${ll_y} ${ll_x} ${ur_y} ${ll_x} ${ur_y} ${ur_x} ${ll_y} ${ur_x}  ${ll_y} ${ll_x}"
 
     planar_configuration=$(exiftool "$file" | grep "Planar"| cut -d":" -f2 | xargs)
 

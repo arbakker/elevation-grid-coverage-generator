@@ -12,21 +12,13 @@
 	xmlns:el-bas="http://inspire.ec.europa.eu/schemas/el-bas/4.0"
 	xmlns:gsr="http://www.isotc211.org/2005/gsr"
 	xmlns:gml="http://www.opengis.net/gml/3.2"
-	xmlns:gco="http://www.isotc211.org/2005/gco" gml:id="idc39dfe27-fc84-4668-a92f-6be677efd008" xsi:schemaLocation="http://inspire.ec.europa.eu/schemas/el-cov/4.0 http://inspire.ec.europa.eu/schemas/el-cov/4.0/ElevationGridCoverage.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://inspire.ec.europa.eu/schemas/base/3.3 http://inspire.ec.europa.eu/schemas/base/3.3/BaseTypes.xsd http://inspire.ec.europa.eu/schemas/gn/4.0 http://inspire.ec.europa.eu/schemas/gn/4.0/GeographicalNames.xsd http://www.isotc211.org/2005/gmd http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd">
+	xmlns:gco="http://www.isotc211.org/2005/gco" gml:id="nl-elevationgridcoverage" xsi:schemaLocation="http://inspire.ec.europa.eu/schemas/el-cov/4.0 http://inspire.ec.europa.eu/schemas/el-cov/4.0/ElevationGridCoverage.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://inspire.ec.europa.eu/schemas/base/3.3 http://inspire.ec.europa.eu/schemas/base/3.3/BaseTypes.xsd http://inspire.ec.europa.eu/schemas/gn/4.0 http://inspire.ec.europa.eu/schemas/gn/4.0/GeographicalNames.xsd http://www.isotc211.org/2005/gmd http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd">
 	{% for grid in grids %}
 	<gml:featureMember>
 		<el-cov:ElevationGridCoverage gml:id="nl-elevationgridcoverage.{{ grid.id }}">
-			<gml:identifier codeSpace="http://inspire.ec.europa.eu/ids">https://nationaalgeoregister.nl/id/nl.el/nl-elevationgridcoverage.{{ grid.id }}</gml:identifier>
-			<el-cov:inspireId>
-				<base:Identifier>
-					<base:localId>nl-elevationgridcoverage.{{ grid.id }}</base:localId>
-					<base:namespace>https://nationaalgeoregister.nl/id/nl.el
-					</base:namespace>
-					<base:versionId nilReason="other:unpopulated" xsi:nil="true">
-					</base:versionId>
-				</base:Identifier>
-			</el-cov:inspireId>
 			<gml:description>Landsdekkend digital terrain model (DTM) van Nederland met een resolutie van +-1m - kaartlad {{ grid.id }}</gml:description>
+			<gml:identifier codeSpace="http://inspire.ec.europa.eu/ids">https://nationaalgeoregister.nl/id/nl.el/nl-elevationgridcoverage.{{ grid.id }}</gml:identifier>
+			<gml:name>kaartlad-{{ grid.id }}</gml:name>
 			<gml:domainSet owns="false" xlink:type="simple">
 				<gml:RectifiedGrid gml:id="nl-elevationgridcoverage.{{ grid.id }}.rectified-grid" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode}}" dimension="2">
 					<gml:limits>
@@ -37,7 +29,7 @@
 					</gml:limits>
 					<gml:axisLabels>x y</gml:axisLabels>
 					<gml:origin>
-						<gml:Point gml:id="origin_point" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode }}">
+						<gml:Point gml:id="nl-elevationgridcoverage.{{ grid.id }}.origin_point" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode }}" srsDimension="2">
 							<gml:pos>{{ grid.originX }} {{ grid.originY }}</gml:pos>
 						</gml:Point>
 					</gml:origin>
@@ -86,7 +78,7 @@
 					<gmd:geographicElement>
 						<gmd:EX_BoundingPolygon>
 							<gmd:polygon>
-								<gml:Polygon gml:id="Extent" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode }}" srsDimension="2">
+								<gml:Polygon gml:id="nl-elevationgridcoverage.{{ grid.id }}.extent" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode }}" srsDimension="2">
 									<gml:exterior>
 										<gml:LinearRing>
 											<gml:posList>{{ grid.extentRing }}</gml:posList>
@@ -99,6 +91,15 @@
 				</gmd:EX_Extent>
 			</el-cov:domainExtent>
 			<el-cov:endLifespanVersion xsi:nil="true"/>
+			<el-cov:inspireId>
+				<base:Identifier>
+					<base:localId>nl-elevationgridcoverage.{{ grid.id }}</base:localId>
+					<base:namespace>https://nationaalgeoregister.nl/id/nl.el
+					</base:namespace>
+					<base:versionId nilReason="other:unpopulated" xsi:nil="true">
+					</base:versionId>
+				</base:Identifier>
+			</el-cov:inspireId>
 			<el-cov:propertyType>height</el-cov:propertyType>
 			<el-cov:surfaceType>DTM</el-cov:surfaceType>
 		</el-cov:ElevationGridCoverage>
