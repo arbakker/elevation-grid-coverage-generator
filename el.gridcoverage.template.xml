@@ -16,9 +16,9 @@
 	{% for grid in grids %}
 	<gml:featureMember>
 		<el-cov:ElevationGridCoverage gml:id="nl-elevationgridcoverage.{{ grid.id }}">
-			<gml:description>Landsdekkend digital terrain model (DTM) van Nederland met een resolutie van +-1m - kaartlad {{ grid.id }}</gml:description>
+			<gml:description>Landsdekkend digital terrain model (DTM) van Nederland met een resolutie van +-1m - kaartblad {{ grid.id }}</gml:description>
 			<gml:identifier codeSpace="http://inspire.ec.europa.eu/ids">https://nationaalgeoregister.nl/id/nl.el/nl-elevationgridcoverage.{{ grid.id }}</gml:identifier>
-			<gml:name>kaartlad-{{ grid.id }}</gml:name>
+			<gml:name>kaartblad-{{ grid.id }}</gml:name>
 			<gml:domainSet owns="false" xlink:type="simple">
 				<gml:RectifiedGrid gml:id="nl-elevationgridcoverage.{{ grid.id }}.rectified-grid" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ grid.epsgCode}}" dimension="2">
 					<gml:limits>
